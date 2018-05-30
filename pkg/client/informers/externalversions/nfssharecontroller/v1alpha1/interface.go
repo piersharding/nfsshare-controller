@@ -41,5 +41,5 @@ func New(f internalinterfaces.SharedInformerFactory, namespace string, tweakList
 
 // Nfsshares returns a NfsshareInformer.
 func (v *version) Nfsshares() NfsshareInformer {
-	return &fooInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
+	return &nfsshareInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
 }

@@ -47,26 +47,26 @@ type NfsshareInterface interface {
 	NfsshareExpansion
 }
 
-// foos implements NfsshareInterface
-type foos struct {
+// nfsshares implements NfsshareInterface
+type nfsshares struct {
 	client rest.Interface
 	ns     string
 }
 
 // newNfsshares returns a Nfsshares
-func newNfsshares(c *NfssharecontrollerV1alpha1Client, namespace string) *foos {
-	return &foos{
+func newNfsshares(c *NfssharecontrollerV1alpha1Client, namespace string) *nfsshares {
+	return &nfsshares{
 		client: c.RESTClient(),
 		ns:     namespace,
 	}
 }
 
-// Get takes name of the foo, and returns the corresponding foo object, and an error if there is any.
-func (c *foos) Get(name string, options v1.GetOptions) (result *v1alpha1.Nfsshare, err error) {
+// Get takes name of the nfsshare, and returns the corresponding nfsshare object, and an error if there is any.
+func (c *nfsshares) Get(name string, options v1.GetOptions) (result *v1alpha1.Nfsshare, err error) {
 	result = &v1alpha1.Nfsshare{}
 	err = c.client.Get().
 		Namespace(c.ns).
-		Resource("foos").
+		Resource("nfsshares").
 		Name(name).
 		VersionedParams(&options, scheme.ParameterCodec).
 		Do().
@@ -75,47 +75,47 @@ func (c *foos) Get(name string, options v1.GetOptions) (result *v1alpha1.Nfsshar
 }
 
 // List takes label and field selectors, and returns the list of Nfsshares that match those selectors.
-func (c *foos) List(opts v1.ListOptions) (result *v1alpha1.NfsshareList, err error) {
+func (c *nfsshares) List(opts v1.ListOptions) (result *v1alpha1.NfsshareList, err error) {
 	result = &v1alpha1.NfsshareList{}
 	err = c.client.Get().
 		Namespace(c.ns).
-		Resource("foos").
+		Resource("nfsshares").
 		VersionedParams(&opts, scheme.ParameterCodec).
 		Do().
 		Into(result)
 	return
 }
 
-// Watch returns a watch.Interface that watches the requested foos.
-func (c *foos) Watch(opts v1.ListOptions) (watch.Interface, error) {
+// Watch returns a watch.Interface that watches the requested nfsshares.
+func (c *nfsshares) Watch(opts v1.ListOptions) (watch.Interface, error) {
 	opts.Watch = true
 	return c.client.Get().
 		Namespace(c.ns).
-		Resource("foos").
+		Resource("nfsshares").
 		VersionedParams(&opts, scheme.ParameterCodec).
 		Watch()
 }
 
-// Create takes the representation of a foo and creates it.  Returns the server's representation of the foo, and an error, if there is any.
-func (c *foos) Create(foo *v1alpha1.Nfsshare) (result *v1alpha1.Nfsshare, err error) {
+// Create takes the representation of a nfsshare and creates it.  Returns the server's representation of the nfsshare, and an error, if there is any.
+func (c *nfsshares) Create(nfsshare *v1alpha1.Nfsshare) (result *v1alpha1.Nfsshare, err error) {
 	result = &v1alpha1.Nfsshare{}
 	err = c.client.Post().
 		Namespace(c.ns).
-		Resource("foos").
-		Body(foo).
+		Resource("nfsshares").
+		Body(nfsshare).
 		Do().
 		Into(result)
 	return
 }
 
-// Update takes the representation of a foo and updates it. Returns the server's representation of the foo, and an error, if there is any.
-func (c *foos) Update(foo *v1alpha1.Nfsshare) (result *v1alpha1.Nfsshare, err error) {
+// Update takes the representation of a nfsshare and updates it. Returns the server's representation of the nfsshare, and an error, if there is any.
+func (c *nfsshares) Update(nfsshare *v1alpha1.Nfsshare) (result *v1alpha1.Nfsshare, err error) {
 	result = &v1alpha1.Nfsshare{}
 	err = c.client.Put().
 		Namespace(c.ns).
-		Resource("foos").
-		Name(foo.Name).
-		Body(foo).
+		Resource("nfsshares").
+		Name(nfsshare.Name).
+		Body(nfsshare).
 		Do().
 		Into(result)
 	return
@@ -124,24 +124,24 @@ func (c *foos) Update(foo *v1alpha1.Nfsshare) (result *v1alpha1.Nfsshare, err er
 // UpdateStatus was generated because the type contains a Status member.
 // Add a +genclient:noStatus comment above the type to avoid generating UpdateStatus().
 
-func (c *foos) UpdateStatus(foo *v1alpha1.Nfsshare) (result *v1alpha1.Nfsshare, err error) {
+func (c *nfsshares) UpdateStatus(nfsshare *v1alpha1.Nfsshare) (result *v1alpha1.Nfsshare, err error) {
 	result = &v1alpha1.Nfsshare{}
 	err = c.client.Put().
 		Namespace(c.ns).
-		Resource("foos").
-		Name(foo.Name).
+		Resource("nfsshares").
+		Name(nfsshare.Name).
 		SubResource("status").
-		Body(foo).
+		Body(nfsshare).
 		Do().
 		Into(result)
 	return
 }
 
-// Delete takes name of the foo and deletes it. Returns an error if one occurs.
-func (c *foos) Delete(name string, options *v1.DeleteOptions) error {
+// Delete takes name of the nfsshare and deletes it. Returns an error if one occurs.
+func (c *nfsshares) Delete(name string, options *v1.DeleteOptions) error {
 	return c.client.Delete().
 		Namespace(c.ns).
-		Resource("foos").
+		Resource("nfsshares").
 		Name(name).
 		Body(options).
 		Do().
@@ -149,22 +149,22 @@ func (c *foos) Delete(name string, options *v1.DeleteOptions) error {
 }
 
 // DeleteCollection deletes a collection of objects.
-func (c *foos) DeleteCollection(options *v1.DeleteOptions, listOptions v1.ListOptions) error {
+func (c *nfsshares) DeleteCollection(options *v1.DeleteOptions, listOptions v1.ListOptions) error {
 	return c.client.Delete().
 		Namespace(c.ns).
-		Resource("foos").
+		Resource("nfsshares").
 		VersionedParams(&listOptions, scheme.ParameterCodec).
 		Body(options).
 		Do().
 		Error()
 }
 
-// Patch applies the patch and returns the patched foo.
-func (c *foos) Patch(name string, pt types.PatchType, data []byte, subresources ...string) (result *v1alpha1.Nfsshare, err error) {
+// Patch applies the patch and returns the patched nfsshare.
+func (c *nfsshares) Patch(name string, pt types.PatchType, data []byte, subresources ...string) (result *v1alpha1.Nfsshare, err error) {
 	result = &v1alpha1.Nfsshare{}
 	err = c.client.Patch(pt).
 		Namespace(c.ns).
-		Resource("foos").
+		Resource("nfsshares").
 		SubResource(subresources...).
 		Name(name).
 		Body(data).

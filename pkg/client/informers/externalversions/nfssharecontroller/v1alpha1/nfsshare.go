@@ -38,7 +38,7 @@ type NfsshareInformer interface {
 	Lister() v1alpha1.NfsshareLister
 }
 
-type fooInformer struct {
+type nfsshareInformer struct {
 	factory          internalinterfaces.SharedInformerFactory
 	tweakListOptions internalinterfaces.TweakListOptionsFunc
 	namespace        string
@@ -46,14 +46,14 @@ type fooInformer struct {
 
 // NewNfsshareInformer constructs a new informer for Nfsshare type.
 // Always prefer using an informer factory to get a shared informer instead of getting an independent
-// one. This reduces memory footprint and number of connections to the server.
+// one. This reduces memory nfssharetprint and number of connections to the server.
 func NewNfsshareInformer(client versioned.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers) cache.SharedIndexInformer {
 	return NewFilteredNfsshareInformer(client, namespace, resyncPeriod, indexers, nil)
 }
 
 // NewFilteredNfsshareInformer constructs a new informer for Nfsshare type.
 // Always prefer using an informer factory to get a shared informer instead of getting an independent
-// one. This reduces memory footprint and number of connections to the server.
+// one. This reduces memory nfssharetprint and number of connections to the server.
 func NewFilteredNfsshareInformer(client versioned.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers, tweakListOptions internalinterfaces.TweakListOptionsFunc) cache.SharedIndexInformer {
 	return cache.NewSharedIndexInformer(
 		&cache.ListWatch{
@@ -76,14 +76,14 @@ func NewFilteredNfsshareInformer(client versioned.Interface, namespace string, r
 	)
 }
 
-func (f *fooInformer) defaultInformer(client versioned.Interface, resyncPeriod time.Duration) cache.SharedIndexInformer {
+func (f *nfsshareInformer) defaultInformer(client versioned.Interface, resyncPeriod time.Duration) cache.SharedIndexInformer {
 	return NewFilteredNfsshareInformer(client, f.namespace, resyncPeriod, cache.Indexers{cache.NamespaceIndex: cache.MetaNamespaceIndexFunc}, f.tweakListOptions)
 }
 
-func (f *fooInformer) Informer() cache.SharedIndexInformer {
+func (f *nfsshareInformer) Informer() cache.SharedIndexInformer {
 	return f.factory.InformerFor(&nfssharecontroller_v1alpha1.Nfsshare{}, f.defaultInformer)
 }
 
-func (f *fooInformer) Lister() v1alpha1.NfsshareLister {
+func (f *nfsshareInformer) Lister() v1alpha1.NfsshareLister {
 	return v1alpha1.NewNfsshareLister(f.Informer().GetIndexer())
 }

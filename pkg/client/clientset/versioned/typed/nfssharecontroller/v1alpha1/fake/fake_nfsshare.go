@@ -34,14 +34,14 @@ type FakeNfsshares struct {
 	ns   string
 }
 
-var foosResource = schema.GroupVersionResource{Group: "nfssharecontroller.k8s.io", Version: "v1alpha1", Resource: "foos"}
+var nfssharesResource = schema.GroupVersionResource{Group: "nfssharecontroller.k8s.io", Version: "v1alpha1", Resource: "nfsshares"}
 
-var foosKind = schema.GroupVersionKind{Group: "nfssharecontroller.k8s.io", Version: "v1alpha1", Kind: "Nfsshare"}
+var nfssharesKind = schema.GroupVersionKind{Group: "nfssharecontroller.k8s.io", Version: "v1alpha1", Kind: "Nfsshare"}
 
-// Get takes name of the foo, and returns the corresponding foo object, and an error if there is any.
+// Get takes name of the nfsshare, and returns the corresponding nfsshare object, and an error if there is any.
 func (c *FakeNfsshares) Get(name string, options v1.GetOptions) (result *v1alpha1.Nfsshare, err error) {
 	obj, err := c.Fake.
-		Invokes(testing.NewGetAction(foosResource, c.ns, name), &v1alpha1.Nfsshare{})
+		Invokes(testing.NewGetAction(nfssharesResource, c.ns, name), &v1alpha1.Nfsshare{})
 
 	if obj == nil {
 		return nil, err
@@ -52,7 +52,7 @@ func (c *FakeNfsshares) Get(name string, options v1.GetOptions) (result *v1alpha
 // List takes label and field selectors, and returns the list of Nfsshares that match those selectors.
 func (c *FakeNfsshares) List(opts v1.ListOptions) (result *v1alpha1.NfsshareList, err error) {
 	obj, err := c.Fake.
-		Invokes(testing.NewListAction(foosResource, foosKind, c.ns, opts), &v1alpha1.NfsshareList{})
+		Invokes(testing.NewListAction(nfssharesResource, nfssharesKind, c.ns, opts), &v1alpha1.NfsshareList{})
 
 	if obj == nil {
 		return nil, err
@@ -71,17 +71,17 @@ func (c *FakeNfsshares) List(opts v1.ListOptions) (result *v1alpha1.NfsshareList
 	return list, err
 }
 
-// Watch returns a watch.Interface that watches the requested foos.
+// Watch returns a watch.Interface that watches the requested nfsshares.
 func (c *FakeNfsshares) Watch(opts v1.ListOptions) (watch.Interface, error) {
 	return c.Fake.
-		InvokesWatch(testing.NewWatchAction(foosResource, c.ns, opts))
+		InvokesWatch(testing.NewWatchAction(nfssharesResource, c.ns, opts))
 
 }
 
-// Create takes the representation of a foo and creates it.  Returns the server's representation of the foo, and an error, if there is any.
-func (c *FakeNfsshares) Create(foo *v1alpha1.Nfsshare) (result *v1alpha1.Nfsshare, err error) {
+// Create takes the representation of a nfsshare and creates it.  Returns the server's representation of the nfsshare, and an error, if there is any.
+func (c *FakeNfsshares) Create(nfsshare *v1alpha1.Nfsshare) (result *v1alpha1.Nfsshare, err error) {
 	obj, err := c.Fake.
-		Invokes(testing.NewCreateAction(foosResource, c.ns, foo), &v1alpha1.Nfsshare{})
+		Invokes(testing.NewCreateAction(nfssharesResource, c.ns, nfsshare), &v1alpha1.Nfsshare{})
 
 	if obj == nil {
 		return nil, err
@@ -89,10 +89,10 @@ func (c *FakeNfsshares) Create(foo *v1alpha1.Nfsshare) (result *v1alpha1.Nfsshar
 	return obj.(*v1alpha1.Nfsshare), err
 }
 
-// Update takes the representation of a foo and updates it. Returns the server's representation of the foo, and an error, if there is any.
-func (c *FakeNfsshares) Update(foo *v1alpha1.Nfsshare) (result *v1alpha1.Nfsshare, err error) {
+// Update takes the representation of a nfsshare and updates it. Returns the server's representation of the nfsshare, and an error, if there is any.
+func (c *FakeNfsshares) Update(nfsshare *v1alpha1.Nfsshare) (result *v1alpha1.Nfsshare, err error) {
 	obj, err := c.Fake.
-		Invokes(testing.NewUpdateAction(foosResource, c.ns, foo), &v1alpha1.Nfsshare{})
+		Invokes(testing.NewUpdateAction(nfssharesResource, c.ns, nfsshare), &v1alpha1.Nfsshare{})
 
 	if obj == nil {
 		return nil, err
@@ -102,9 +102,9 @@ func (c *FakeNfsshares) Update(foo *v1alpha1.Nfsshare) (result *v1alpha1.Nfsshar
 
 // UpdateStatus was generated because the type contains a Status member.
 // Add a +genclient:noStatus comment above the type to avoid generating UpdateStatus().
-func (c *FakeNfsshares) UpdateStatus(foo *v1alpha1.Nfsshare) (*v1alpha1.Nfsshare, error) {
+func (c *FakeNfsshares) UpdateStatus(nfsshare *v1alpha1.Nfsshare) (*v1alpha1.Nfsshare, error) {
 	obj, err := c.Fake.
-		Invokes(testing.NewUpdateSubresourceAction(foosResource, "status", c.ns, foo), &v1alpha1.Nfsshare{})
+		Invokes(testing.NewUpdateSubresourceAction(nfssharesResource, "status", c.ns, nfsshare), &v1alpha1.Nfsshare{})
 
 	if obj == nil {
 		return nil, err
@@ -112,26 +112,26 @@ func (c *FakeNfsshares) UpdateStatus(foo *v1alpha1.Nfsshare) (*v1alpha1.Nfsshare
 	return obj.(*v1alpha1.Nfsshare), err
 }
 
-// Delete takes name of the foo and deletes it. Returns an error if one occurs.
+// Delete takes name of the nfsshare and deletes it. Returns an error if one occurs.
 func (c *FakeNfsshares) Delete(name string, options *v1.DeleteOptions) error {
 	_, err := c.Fake.
-		Invokes(testing.NewDeleteAction(foosResource, c.ns, name), &v1alpha1.Nfsshare{})
+		Invokes(testing.NewDeleteAction(nfssharesResource, c.ns, name), &v1alpha1.Nfsshare{})
 
 	return err
 }
 
 // DeleteCollection deletes a collection of objects.
 func (c *FakeNfsshares) DeleteCollection(options *v1.DeleteOptions, listOptions v1.ListOptions) error {
-	action := testing.NewDeleteCollectionAction(foosResource, c.ns, listOptions)
+	action := testing.NewDeleteCollectionAction(nfssharesResource, c.ns, listOptions)
 
 	_, err := c.Fake.Invokes(action, &v1alpha1.NfsshareList{})
 	return err
 }
 
-// Patch applies the patch and returns the patched foo.
+// Patch applies the patch and returns the patched nfsshare.
 func (c *FakeNfsshares) Patch(name string, pt types.PatchType, data []byte, subresources ...string) (result *v1alpha1.Nfsshare, err error) {
 	obj, err := c.Fake.
-		Invokes(testing.NewPatchSubresourceAction(foosResource, c.ns, name, data, subresources...), &v1alpha1.Nfsshare{})
+		Invokes(testing.NewPatchSubresourceAction(nfssharesResource, c.ns, name, data, subresources...), &v1alpha1.Nfsshare{})
 
 	if obj == nil {
 		return nil, err

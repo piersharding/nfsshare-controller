@@ -1,0 +1,7 @@
+apiVersion: skasdp.org/v1alpha1
+kind: Nfsshare
+metadata:
+  name: example-nfsshare
+spec:
+  deploymentName: example-nfsshare
+  replicas: 1

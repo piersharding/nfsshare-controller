@@ -3,8 +3,14 @@
 # Refer to https://github.com/golang/dep/blob/master/docs/Gopkg.toml.md
 # for detailed Gopkg.toml documentation.
 #
-# required = ["github.com/user/thing/cmd/thing"]
+required = [
+  "k8s.io/code-generator/cmd/client-gen"
+]
+
 # ignored = ["github.com/user/project/pkgX", "bitbucket.org/user/project/pkgA/pkgY"]
+
+# ignored = ["k8s.io/code-generator"]
+
 #
 # [[constraint]]
 #   name = "github.com/user/project"
@@ -29,6 +35,27 @@
   name = "k8s.io/api"
   version = "kubernetes-1.12.0-alpha.0"
 
+[[constraint]]
+  branch = "master"
+  name = "k8s.io/code-generator"
+
+#[[override]]
+#  branch = "master"
+#  name = "k8s.io/code-generator"
+
 [prune]
+  non-go = true
   go-tests = true
   unused-packages = true
+
+  [[prune.project]]
+    name = "k8s.io/code-generator"
+    unused-packages = false
+    non-go = false
+    go-tests = false
+
+  [[prune.project]]
+    name = "k8s.io/gengo"
+    unused-packages = false
+    non-go = false
+    go-tests = false

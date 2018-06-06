@@ -17,7 +17,12 @@ EOF
 docker build -t ${IMG} -f Dockerfile.builder .
 
 # /builds/piersharding/nfsshare-controller
+echo "Build ${BIN} in docker"
 docker run --name gobuilder -it ${IMG}
+echo "Finished build."
+echo "Does the container still exist:"
+docker ps -a
+echo "Copy out ${BIN}"
 docker cp gobuilder:/results/${BIN} bin/
 echo "Output:"
 ls -latr bin/

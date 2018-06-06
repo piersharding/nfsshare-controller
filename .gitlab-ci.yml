@@ -9,6 +9,7 @@ cache:
     - /go/src/gopkg.in
 
 before_script:
+  - curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
   - mkdir -p /go/src/github.com/piersharding /go/src/_/builds
   - cp -r $CI_PROJECT_DIR /go/src/github.com/piersharding/nfsshare-controller
   - ln -s /go/src/gitlab.com/piersharding /go/src/_/builds/piersharding

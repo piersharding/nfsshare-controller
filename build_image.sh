@@ -20,7 +20,7 @@ docker build -t ${IMG} -f Dockerfile.builder .
 echo "Build ${BIN} in docker"
 docker run --name gobuilder \
    -v /builds/piersharding/nfsshare-controller/bin:/results \
-   -it ${IMG}
+   ${IMG}
 echo "Finished build."
 echo "Does the container still exist:"
 docker ps -a

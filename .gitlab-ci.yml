@@ -15,7 +15,7 @@ before_script:
   - mkdir -p /go/src/github.com/piersharding /go/src/_/builds
   - cp -r $CI_PROJECT_DIR /go/src/github.com/piersharding/nfsshare-controller
   - ln -s /go/src/gitlab.com/piersharding /go/src/_/builds/piersharding
-  - make deps
+  - cd /go/src/gitlab.com/piersharding/nfsshare-controller && make deps
 
 stages:
   - build
@@ -23,5 +23,5 @@ stages:
 build-containers:
   stage: build
   script:
-    - make docker
+    - cd /go/src/gitlab.com/piersharding/nfsshare-controller && make docker
 

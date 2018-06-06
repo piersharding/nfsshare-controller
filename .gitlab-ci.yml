@@ -1,3 +1,19 @@
+image: golang:1.10
+
+cache:
+  paths:
+    - /apt-cache
+    - /go/src/github.com
+    - /go/src/golang.org
+    - /go/src/google.golang.org
+    - /go/src/gopkg.in
+
+before_script:
+  - mkdir -p /go/src/github.com/piersharding /go/src/_/builds
+  - cp -r $CI_PROJECT_DIR /go/src/github.com/piersharding/nfsshare-controller
+  - ln -s /go/src/gitlab.com/piersharding /go/src/_/builds/piersharding
+  - make deps
+
 stages:
   - build
 

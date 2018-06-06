@@ -22,7 +22,8 @@ services:
 before_script:
   - docker info
   - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
-  - echo "ENVIRONMENT: \n" `env`
+  - 'echo "ENVIRONMENT: "'
+  - env
 
 stages:
   - build

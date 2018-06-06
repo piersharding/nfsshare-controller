@@ -3,6 +3,9 @@ image: docker:stable
 
 variables:
   DOCKER_DRIVER: overlay2
+  REPO_PREFIX: registry.gitlab.com/piersharding/nfsshare-controller/ 
+  IMG: nfsshare-controller
+  TAG: latest
   # GOPATH: /go
 
 services:
@@ -19,11 +22,6 @@ services:
 before_script:
   - docker info
   - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
-  # - curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
-  # - mkdir -p /go/src/github.com/piersharding /go/src/_/builds
-  # - cp -r $CI_PROJECT_DIR /go/src/github.com/piersharding/nfsshare-controller
-  # - ln -s /go/src/github.com/piersharding /go/src/_/builds/piersharding
-  # - cd /go/src/github.com/piersharding/nfsshare-controller && make deps
 
 stages:
   - build
@@ -32,11 +30,8 @@ build-containers:
   stage: build
   script:
     - $CI_PROJECT_DIR/build_image.sh
-    - cd $CI_PROJECT_DIR && make docker
-    - cd $CI_PROJECT_DIR && REPO_PREFIX=registry.gitlab.com/piersharding/nfsshare-controller/ make push
-
-    # - cd /go/src/github.com/piersharding/nfsshare-controller && make docker
-    # - docker login registry.gitlab.com
-    # - docker build -t registry.gitlab.com/pantomath-io/demo-tools .
-    # - push registry.gitlab.com/pantomath-io/demo-tools
-
+    - docker images
+    - cd $CI_PROJECT_DIR &&  docker build -t ${IMG}:${TAG} .
+    - docker images
+    - docker tag ${IMG}:${TAG} ${REPO_PREFIX}${IMG}:${TAG}
+    - docker push ${REPO_PREFIX}${IMG}:${TAG}

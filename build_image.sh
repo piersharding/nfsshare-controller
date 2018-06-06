@@ -18,6 +18,7 @@ docker build -t ${IMG} -f Dockerfile.builder .
 
 #RUN ln -s ${WORKDIR} /src
 #COPY . ${WORKDIR}
+# /builds/piersharding/nfsshare-controller
 docker run --rm -it --mount "type=bind,src=${PWD}/bin,dst=/done" ${IMG}
 echo "Output:"
 ls -latr bin/

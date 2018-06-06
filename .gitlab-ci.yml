@@ -14,8 +14,8 @@ before_script:
   - curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
   - mkdir -p /go/src/github.com/piersharding /go/src/_/builds
   - cp -r $CI_PROJECT_DIR /go/src/github.com/piersharding/nfsshare-controller
-  - ln -s /go/src/gitlab.com/piersharding /go/src/_/builds/piersharding
-  - cd /go/src/gitlab.com/piersharding/nfsshare-controller && make deps
+  - ln -s /go/src/github.com/piersharding /go/src/_/builds/piersharding
+  - cd /go/src/github.com/piersharding/nfsshare-controller && make deps
 
 stages:
   - build
@@ -23,5 +23,5 @@ stages:
 build-containers:
   stage: build
   script:
-    - cd /go/src/gitlab.com/piersharding/nfsshare-controller && make docker
+    - cd /go/src/github.com/piersharding/nfsshare-controller && make docker
 

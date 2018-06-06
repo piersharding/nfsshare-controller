@@ -34,8 +34,12 @@ type Nfsshare struct {
 
 // NfsshareSpec is the spec for a Nfsshare resource
 type NfsshareSpec struct {
-	DeploymentName string `json:"deploymentName"`
-	Replicas       *int32 `json:"replicas"`
+	ShareName       string `json:"shareName"`
+    Image           string `json:"image"`
+    Replicas        *int32 `json:"replicas,omitempty"`
+    SharedDirectory string `json:"sharedDirectory"`
+    Size            string `json:"size"`
+    StorageClass    string `json:"storageClass"`
 }
 
 // NfsshareStatus is the status for a Nfsshare resource

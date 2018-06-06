@@ -3,5 +3,6 @@ kind: Nfsshare
 metadata:
   name: example-nfsshare
 spec:
-  deploymentName: example-nfsshare
-  replicas: 1
+  shareName: example-nfsshare
+  size: 5Gi
+  sharedDirectory: /data

@@ -9,3 +9,39 @@ spec:
     kind: Nfsshare
     plural: nfsshares
   scope: Namespaced
+  subresources:
+    status: {}
+  validation:
+    openAPIV3Schema:
+      required: ["spec"]
+      properties:
+        spec:
+          # required:
+          # - size
+          # - sharedDirectory
+          properties:
+            replicas:
+              description: "No. of replicas - must always be 1"
+              type: integer
+              minimum: 1
+              maximum: 1
+            size:
+              description: "Size of NFS mount point in Gigabytes eg: '5Gi' - default '2Gi'"
+              type: string
+              pattern: '^\d+Gi$'
+            storageClass:
+              description: "The storageClass used for creating the NFS mount point - default: 'standard'"
+              type: string
+              pattern: '^(.+)?$'
+            sharedDirectory:
+              description: "The directory location that the NFS server will mount the share - default: '/nfsshare'"
+              type: string
+              pattern: '^(/\w+)?$'
+            image:
+              description: "The image used to launch the NFS server - default: 'itsthenetwork/nfs-server-alpine:latest'"
+              type: string
+              pattern: '^(.+)?$'
+            shareName:
+              description: "The name of the share object"
+              type: string
+              pattern: '^(.+)$'

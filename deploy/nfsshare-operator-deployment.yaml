@@ -6,7 +6,7 @@ metadata:
   namespace: kube-system
 ---
 apiVersion: extensions/v1beta1
-kind: DaemonSet
+kind: Deployment
 metadata:
   name: nfsshare-operator
   namespace: kube-system
@@ -16,8 +16,6 @@ spec:
   selector:
     matchLabels:
       k8s-app: nfsshare-operator
-  updateStrategy:
-    type: RollingUpdate
   template:
     metadata:
       labels:
@@ -37,7 +35,7 @@ spec:
       containers:
       - name: nfsshare-operator
         image: ${DOCKER_IMAGE}
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         args:
-        - --v=5
+        - --v=4
         - -logtostderr

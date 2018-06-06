@@ -29,9 +29,10 @@ stages:
 build-containers:
   stage: build
   script:
-    - $CI_PROJECT_DIR/build_image.sh
+    - cd $CI_PROJECT_DIR && $CI_PROJECT_DIR/build_image.sh
     - docker images
-    - cd $CI_PROJECT_DIR &&  docker build -t ${IMG}:${TAG} .
+    - cd $CI_PROJECT_DIR && ls -latr bin/
+    - cd $CI_PROJECT_DIR && docker build -t ${IMG}:${TAG} .
     - docker images
     - docker tag ${IMG}:${TAG} ${REPO_PREFIX}${IMG}:${TAG}
     - docker push ${REPO_PREFIX}${IMG}:${TAG}

@@ -1,0 +1,8 @@
+stages:
+  - build
+
+build-containers:
+  stage: build
+  script:
+    - make docker
+

@@ -1,5 +1,7 @@
 image: golang:1.10
 
+variables:
+  GOPATH: /go
 cache:
   paths:
     - /apt-cache

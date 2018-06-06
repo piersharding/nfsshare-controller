@@ -1,21 +1,29 @@
-image: golang:1.10
+# image: golang:1.10
+image: docker:stable
 
 variables:
-  GOPATH: /go
-cache:
-  paths:
-    - /apt-cache
-    - /go/src/github.com
-    - /go/src/golang.org
-    - /go/src/google.golang.org
-    - /go/src/gopkg.in
+  DOCKER_DRIVER: overlay2
+  # GOPATH: /go
+
+services:
+- docker:dind
+
+# cache:
+#   paths:
+#     - /apt-cache
+#     - /go/src/github.com
+#     - /go/src/golang.org
+#     - /go/src/google.golang.org
+#     - /go/src/gopkg.in
 
 before_script:
-  - curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
-  - mkdir -p /go/src/github.com/piersharding /go/src/_/builds
-  - cp -r $CI_PROJECT_DIR /go/src/github.com/piersharding/nfsshare-controller
-  - ln -s /go/src/github.com/piersharding /go/src/_/builds/piersharding
-  - cd /go/src/github.com/piersharding/nfsshare-controller && make deps
+  - docker info
+  - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
+  # - curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
+  # - mkdir -p /go/src/github.com/piersharding /go/src/_/builds
+  # - cp -r $CI_PROJECT_DIR /go/src/github.com/piersharding/nfsshare-controller
+  # - ln -s /go/src/github.com/piersharding /go/src/_/builds/piersharding
+  # - cd /go/src/github.com/piersharding/nfsshare-controller && make deps
 
 stages:
   - build
@@ -23,5 +31,12 @@ stages:
 build-containers:
   stage: build
   script:
-    - cd /go/src/github.com/piersharding/nfsshare-controller && make docker
+    - $CI_PROJECT_DIR/build_image.sh
+    - cd $CI_PROJECT_DIR && make docker
+    - cd $CI_PROJECT_DIR && REPO_PREFIX=registry.gitlab.com/piersharding/nfsshare-controller/ make push
+
+    # - cd /go/src/github.com/piersharding/nfsshare-controller && make docker
+    # - docker login registry.gitlab.com
+    # - docker build -t registry.gitlab.com/pantomath-io/demo-tools .
+    # - push registry.gitlab.com/pantomath-io/demo-tools
 

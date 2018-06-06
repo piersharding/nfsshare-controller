@@ -1,7 +1,8 @@
 
 DEVICE:=nfsshare-controller
 TAG ?= latest
-REPO_PREFIX ?= http://localhost:5000/
+#REPO_PREFIX ?= http://localhost:5000/
+REPO_PREFIX ?= registry.gitlab.com/piersharding/nfsshare-controller/
 DOCKER_IMAGE = $(REPO_PREFIX)$(DEVICE):$(TAG)
 CURRENT_DIR = $(shell pwd)
 

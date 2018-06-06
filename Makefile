@@ -29,7 +29,7 @@ deps:
 	git checkout 
 
 clean:
-	@date
+	@echo "Start with clean: " `date`
 	rm -f $(DEVICE) bin/$(DEVICE)
 
 bin/$(DEVICE):
@@ -37,6 +37,7 @@ bin/$(DEVICE):
 
 docker: build 
 	docker build -t $(DEVICE):$(TAG) .
+	@echo "Finished image build: " `date`
 
 run: build
 	./bin/$(DEVICE) -h || true

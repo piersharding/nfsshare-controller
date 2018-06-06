@@ -1,23 +1,13 @@
-# image: golang:1.10
 image: docker:stable
 
 variables:
   DOCKER_DRIVER: overlay2
-  REPO_PREFIX: registry.gitlab.com/piersharding/nfsshare-controller/ 
   IMG: nfsshare-controller
   TAG: latest
-  # GOPATH: /go
+  GOLANG: golang:1.10
 
 services:
 - docker:dind
-
-# cache:
-#   paths:
-#     - /apt-cache
-#     - /go/src/github.com
-#     - /go/src/golang.org
-#     - /go/src/google.golang.org
-#     - /go/src/gopkg.in
 
 before_script:
   - docker info
@@ -36,5 +26,5 @@ build-containers:
     - ls -latr ${CI_PROJECT_DIR}/bin/
     - cd ${CI_PROJECT_DIR} && docker build -t ${IMG}:${TAG} .
     - docker images
-    - docker tag ${IMG}:${TAG} ${REPO_PREFIX}${IMG}:${TAG}
-    - docker push ${REPO_PREFIX}${IMG}:${TAG}
+    - docker tag ${IMG}:${TAG} ${CI_REGISTRY_IMAGE}/${IMG}:${TAG}
+    - docker push ${CI_REGISTRY_IMAGE}/${IMG}:${TAG}

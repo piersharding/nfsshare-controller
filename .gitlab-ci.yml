@@ -6,7 +6,6 @@ variables:
   IMG: nfsshare-controller
   TAG: latest
   GOLANG: golang:1.10
-  GOPATH: /go
 
 services:
 - docker:dind
@@ -16,6 +15,9 @@ before_script:
   - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
   - 'echo "ENVIRONMENT: "'
   - env
+  - apk add --update make
+  - 'echo "CHECKVARS: "'
+  - cd ${CI_PROJECT_DIR} && make checkvars
 
 stages:
   - build
@@ -23,8 +25,6 @@ stages:
 build-containers:
   stage: build
   script:
-    - apk add --update make
-    - cd ${CI_PROJECT_DIR} && make checkvars
     - cd ${CI_PROJECT_DIR} && make GOLANG=${GOLANG} run_builder
     - docker images
     - ls -latr ${CI_PROJECT_DIR}/bin/

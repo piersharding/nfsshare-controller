@@ -12,6 +12,7 @@ WORKDIR = ${GOPATH}/src/github.com/piersharding/${CONTROLLER_BIN}/
 CI_PROJECT_DIR ?= ${CURRENT_DIR}
 BUILD_PATH = ${CI_PROJECT_DIR}
 GOLANG ?= golang:1.10
+GOPATH ?= /go
 BUILDER_FILE = Dockerfile.builder
 
 
@@ -23,6 +24,7 @@ checkvars:
 	@echo "Repo: $(REPO_PREFIX)"
 	@echo "Workdir: $(WORKDIR)"
 	@echo "Golang: $(GOLANG)"
+	@echo "Gopath: $(GOPATH)"
 	@echo "Buildpath: $(BUILD_PATH)"
 
 .DEFAULT: $(DEVICE)
@@ -64,20 +66,21 @@ docker_rm:
 
 run_builder:
 	@echo "Started builder at: " `date`
-	# /builds/piersharding/nfsshare-controller
 	@echo "BUILD_PATH is: ${BUILD_PATH}"
 	@echo "GOLANG base image version is: ${GOLANG}"
 	@echo "WORKDIR is: ${WORKDIR}"
 	@echo "IMG builder is: ${IMG_BUILDER}"
 	@echo "Result binary is: ${CONTROLLER_BIN}"
 	docker rm -f ${IMG_BUILDER} || true
-	echo "FROM $(GOLANG)" >>$(BUILDER_FILE)
-	echo "ENV GOPATH /go" >>$(BUILDER_FILE)
-	echo "RUN curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh" >>$(BUILDER_FILE)
-	echo "RUN mkdir -p /results $(WORKDIR)" >>$(BUILDER_FILE)
-	echo "COPY . $(WORKDIR)" >>$(BUILDER_FILE)
-	echo "WORKDIR $(WORKDIR)" >>$(BUILDER_FILE)
-	echo "CMD /usr/bin/make deps && /usr/bin/make build && ls -l bin/ && cp bin/* /results/" >>$(BUILDER_FILE)
+	@echo "FROM $(GOLANG)" >>$(BUILDER_FILE)
+	@echo "ENV GOPATH /go" >>$(BUILDER_FILE)
+	@echo "RUN curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh" >>$(BUILDER_FILE)
+	@echo "RUN mkdir -p /results $(WORKDIR)" >>$(BUILDER_FILE)
+	@echo "COPY . $(WORKDIR)" >>$(BUILDER_FILE)
+	@echo "WORKDIR $(WORKDIR)" >>$(BUILDER_FILE)
+	@echo "CMD /usr/bin/make deps && /usr/bin/make build && ls -l bin/ && cp bin/* /results/" >>$(BUILDER_FILE)
+	@echo "Dockerfile is:"
+	@cat $(BUILDER_FILE)
 	docker build -t $(IMG_BUILDER) -f $(BUILDER_FILE) .
 	@echo "Build $(CONTROLLER_BIN) in docker"
 	docker run --name $(IMG_BUILDER) \

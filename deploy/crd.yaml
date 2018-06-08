@@ -8,6 +8,9 @@ spec:
   names:
     kind: Nfsshare
     plural: nfsshares
+    singular: nfsshare
+    shortNames:
+      - nfss
   scope: Namespaced
   subresources:
     status: {}

@@ -47,9 +47,11 @@ clean:
 bin/$(DEVICE):
 	./build
 
-docker: build 
+image:
 	docker build -t $(DEVICE):$(TAG) .
 	@echo "Finished image build: " `date`
+
+docker: build image
 
 run: build
 	./bin/$(DEVICE) -h || true

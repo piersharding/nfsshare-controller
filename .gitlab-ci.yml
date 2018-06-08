@@ -1,12 +1,12 @@
-#image: docker:stable
-image: golang:1.10
+image: docker:stable
 
 variables:
   DOCKER_DRIVER: overlay2
   GOPREFIX: /go/src/github.com/piersharding/
   IMG: nfsshare-controller
   TAG: latest
-  # GOLANG: golang:1.10
+  GOLANG: golang:1.10
+  GOPATH: /go
 
 services:
 - docker:dind
@@ -23,15 +23,12 @@ stages:
 build-containers:
   stage: build
   script:
-    # - cd ${CI_PROJECT_DIR} && ${CI_PROJECT_DIR}/build_image.sh
-    - curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
-    - mkdir -p ${GOPREFIX}
-    - ln -s ${CI_PROJECT_DIR} ${GOPREFIX}${CI_PROJECT_NAME}
-    - cd ${GOPREFIX}${CI_PROJECT_NAME} && make deps
-    - cd ${GOPREFIX}${CI_PROJECT_NAME} && make docker
+    - apk add --update make
+    - cd ${CI_PROJECT_DIR} && make checkvars
+    - cd ${CI_PROJECT_DIR} && make GOLANG=${GOLANG} run_builder
     - docker images
     - ls -latr ${CI_PROJECT_DIR}/bin/
-    # - cd ${CI_PROJECT_DIR} && docker build -t ${IMG}:${TAG} .
-    # - docker images
+    - cd ${CI_PROJECT_DIR} && make image
+    - docker images
     - docker tag ${IMG}:${TAG} ${CI_REGISTRY_IMAGE}/${IMG}:${TAG}
     - docker push ${CI_REGISTRY_IMAGE}/${IMG}:${TAG}
